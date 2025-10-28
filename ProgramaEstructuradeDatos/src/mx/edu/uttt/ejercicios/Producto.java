@@ -1,52 +1,47 @@
 package mx.edu.uttt.ejercicios;
 
 public class Producto {
-    private String Nombre;
-    private Double Precio;
-    private int Existencia;
+    private String nombre;
+    private int existencia;
+    private double precio;
 
-    public Producto() {
-        this.Nombre = "Sin nombre";
-    }
+    public Producto() {}
 
-    public Producto(String Nombre, int Existencia, double Precio){
-        this.setExistencia(Existencia);
-        this.setNombre(Nombre);
-        this.setPrecio(Precio);
-    }
-    // Metodo Accesor (get)
-    public String getNombre(){
-        return this.Nombre;
+    public Producto(String nombre, int existencia, double precio) {
+        this.nombre = nombre;
+        this.existencia = existencia;
+        this.precio = precio;
     }
 
-    // METODO MUTADOR (SET)
-
-    public void setNombre(String Nombre){
-        this.Nombre = Nombre.toUpperCase();
+    // Getters y Setters
+    public String getNombre() {
+        return nombre;
     }
 
-    public int getExistencia(){
-        return this.Existencia;
-    }
-    public void setExistencia(int Existencia){
-        if (Existencia>= 0)
-            this.Existencia = Existencia;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public Double getPrecio() {
-        return this.Precio;
+    public int getExistencia() {
+        return existencia;
     }
 
-    public void setPrecio(double Precio){
-        if (Precio>= 0.0)
-            this.Precio = Precio;
+    public void setExistencia(int existencia) {
+        this.existencia = existencia;
     }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
     @Override
-    public String toString(){
-        return "Nombre del producto: " + getNombre() +
-                "\nExistencia: " + getExistencia() +
-                "\nPrecio: " + getPrecio();
-
-
+    public String toString() {
+        return "Producto: " + nombre +
+                " | Existencia: " + existencia +
+                " | Precio: $" + precio;
     }
 }

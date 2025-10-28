@@ -3,96 +3,62 @@ package mx.edu.uttt.ejercicios;
 import javax.swing.*;
 
 public class productosVector {
-    private final int TAMANO = 2;
-    private Producto[] productos;
-
-    // < >
-
-    public productosVector() {
-        this.productos = new Producto[this.TAMANO];
-    }
+    private Producto[] vector;
+    private int contador;
 
     public productosVector(int tamanio) {
-        if (tamanio <= 0)
-            this.productos = new Producto[this.TAMANO];
-        else
-            this.productos = new Producto[tamanio];
+        vector = new Producto[tamanio];
+        contador = 0;
     }
 
-    public void LlenarArreglo(Producto producto) {
-        if (estalleno()) {
-            JOptionPane.showMessageDialog(null, "El vector esta lleno");
+    public boolean estaLleno() {
+        return contador >= vector.length;
+    }
+
+    public void llenarArreglo(Producto p) {
+        if (!estaLleno()) {
+            vector[contador] = p;
+            contador++;
         } else {
-            this.productos[buscarposicion()] = producto;
+            JOptionPane.showMessageDialog(null, "El vector está lleno, no se puede agregar más productos.");
         }
-    }
-
-    private int buscarposicion() {
-        int posicion = 0;
-        for (int i = 0; i < this.productos.length; i++) {
-            if (this.productos[i] == null) {
-                posicion = i;
-                break;
-
-            }
-        }
-        return posicion;
-    }
-
-
-    public boolean estalleno() {
-        boolean lleno = true;
-        for (Producto producto : this.productos) {
-            if (producto == null) {
-                lleno = false;
-                break;
-            }
-        }
-        return lleno;
     }
 
     public String imprimir() {
-        String salida = "Lista de Productos\n";
+        if (contador == 0) return "No hay productos registrados.";
 
-//          for (Producto producto: this.productos){
-//            salida += producto.toString() + "\n";
-//        }
-
-        for (int i = 0; i < this.productos.length; i++) {
-            if (this.productos[i] != null) {
-                salida += this.productos[i].toString() + "\nImporte:" +
-                        productos[i].getPrecio() *
-                                productos[i].getExistencia()
-                        + "\n";
-            }
+        StringBuilder sb = new StringBuilder("Lista de productos:\n");
+        for (int i = 0; i < contador; i++) {
+            sb.append(i + 1).append(") ").append(vector[i].toString()).append("\n");
         }
-
-        return salida;
-
+        return sb.toString();
     }
 
-    //Elminar producto, mostrar productos que hay
-    // y puede seleccionar el que quiere elminar por nombre,
-    // un metodo donde busquen el arreglo por nombre
-
-
-    public void eliminarProducto(String nombreProducto) {
-        for (int i = 0; i < this.productos.length; i++) {
-            if (this.productos[i].getNombre().equalsIgnoreCase(nombreProducto)) {
-                this.productos[i] = null;
+    public void eliminarProducto(String nombre) {
+        for (int i = 0; i < contador; i++) {
+            if (vector[i].getNombre().equalsIgnoreCase(nombre)) {
+                for (int j = i; j < contador - 1; j++) {
+                    vector[j] = vector[j + 1];
+                }
+                vector[contador - 1] = null;
+                contador--;
+                JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
+                return;
             }
         }
+        JOptionPane.showMessageDialog(null, "No se encontró el producto.");
     }
 
-    public void actualizarProducto(String nombreProducto, String nombre, int existencia, Double precio) {
-        for (int i = 0; i < this.productos.length; i++) {
-            if (this.productos[i].getNombre().equalsIgnoreCase(nombreProducto)) {
-                this.productos[i].setNombre(nombre);
-                this.productos[i].setExistencia(existencia);
-                this.productos[i].setPrecio(precio);
-            } else {
-                System.out.println(":D");
+    public void actualizarProducto(String nombreAntiguo, String nuevoNombre, int nuevaExistencia, double nuevoPrecio) {
+        for (int i = 0; i < contador; i++) {
+            if (vector[i].getNombre().equalsIgnoreCase(nombreAntiguo)) {
+                vector[i].setNombre(nuevoNombre);
+                vector[i].setExistencia(nuevaExistencia);
+                vector[i].setPrecio(nuevoPrecio);
+                JOptionPane.showMessageDialog(null, "Producto actualizado correctamente.");
+                return;
             }
         }
+        JOptionPane.showMessageDialog(null, "No se encontró el producto a editar.");
     }
 }
